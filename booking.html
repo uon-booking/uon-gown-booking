@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gown Booking Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #0099CC;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .form-container {
+      max-width: 500px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #0099CC;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      background: #25D366;
+      color: white;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #128C7E;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      background: #0099CC;
+      color: white;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🎓 Gown Booking Form</h1>
+    <p>Fill in your details to reserve your graduation gown</p>
+  </header>
+
+  <div class="form-container">
+    <form onsubmit="return sendWhatsAppMessage()">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required>
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" required>
+
+      <label for="size">Gown Size:</label>
+      <select id="size" required>
+        <option value="">-- Select Size --</option>
+        <option value="Small">Small (S)</option>
+        <option value="Medium">Medium (M)</option>
+        <option value="Large">Large (L)</option>
+        <option value="Extra Large">Extra Large (XL)</option>
+      </select>
+
+      <label for="center">Pickup Center:</label>
+      <select id="center" required>
+        <option value="">-- Choose Center --</option>
+        <option value="Kihunguro">Kihunguro</option>
+        <option value="Nairobi">Nairobi</option>
+      </select>
+
+      <label for="location">Your Current Location:</label>
+      <input type="text" id="location" placeholder="e.g. Kasarani, Embu, Rongai" required>
+
+      <button type="submit" class="btn">📲 Submit Booking via WhatsApp</button>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 University of Nairobi Gown Booking | Designed by ICT Centre
+  </footer>
+
+  <script>
+    function sendWhatsAppMessage() {
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const size = document.getElementById('size').value;
+      const center = document.getElementById('center').value;
+      const location = document.getElementById('location').value;
+
+      const message = `Hello, I would like to book a graduation gown.\n\nName: ${name}\nPhone: ${phone}\nSize: ${size}\nPickup Center: ${center}\nLocation: ${location}\nRental Price: KSh 2,500`;
+
+      const url = `https://wa.me/254708940126?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+      return false;
+    }
+  </script>
+
+</body>
+</html>

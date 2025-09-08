@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University of Nairobi - Graduation Gown Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f9fc;
+      color: #333;
+      overflow-x: hidden;
+    }
+    header {
+      background: #0099CC;
+      color: white;
+      text-align: center;
+      padding: 20px 15px;
+    }
+    header img {
+      max-height: 70px;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: bold;
+    }
+    header p {
+      margin: 5px 0 0;
+      font-size: 16px;
+      color: #f0f0f0;
+    }
+    .countdown {
+      text-align: center;
+      padding: 15px;
+      font-size: 18px;
+      color: #0099CC;
+      font-weight: bold;
+    }
+    .congrats {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      color: #25D366;
+      margin-bottom: 10px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      max-width: 520px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s;
+      padding-bottom: 20px;
+    }
+    .card:hover {
+      transform: scale(1.02);
+    }
+    .image-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px;
+    }
+    .image-row img {
+      width: 49%;
+      height: auto;
+      border-radius: 6px;
+    }
+    .caption {
+      font-size: 14px;
+      color: #777;
+      margin: 5px 10px 15px;
+      font-style: italic;
+    }
+    .card h2 {
+      font-size: 22px;
+      margin: 12px 0 5px;
+      color: #0099CC;
+    }
+    .card p {
+      font-size: 15px;
+      margin: 0 10px 10px;
+      color: #555;
+    }
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #FFD700;
+      margin: 5px 0 15px;
+    }
+    label {
+      font-weight: bold;
+      color: #0099CC;
+    }
+    select {
+      padding: 8px;
+      margin: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      display: inline-block;
+      background: #25D366;
+      color: white;
+      padding: 10px 15px;
+      margin: 10px 0 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #128C7E;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      background: #0099CC;
+      color: white;
+      margin-top: 30px;
+    }
+    canvas {
+      position: fixed;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="UoN-Logo.png" alt="University of Nairobi Logo">
+    <h1>🎓 University of Nairobi</h1>
+    <p>Graduation Gown Booking Portal</p>
+  </header>
+
+  <div class="countdown">
+    🎉 Countdown to Graduation: <span id="countdown"></span>
+  </div>
+
+  <div class="congrats">
+    🎉 Congratulations to all our 2025 Graduates!
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="image-row">
+        <img src="gowns/graduation.png" alt="Graduation Gown">
+        <img src="gowns/UoN-Graduation.jpg" alt="UoN Graduation Gown">
+      </div>
+      <div class="caption">Alternate views of the official UoN graduation gown</div>
+      <h2>Graduation Gown</h2>
+      <p>Official UoN black gown with red collar and golden sash.<br>Available in all sizes.</p>
+      <p class="price">Rental Price: KSh 2,500</p>
+
+      <!-- Size Selection -->
+      <label for="size">Select Size:</label>
+      <select id="size">
+        <option value="Small">Small (S)</option>
+        <option value="Medium">Medium (M)</option>
+        <option value="Large">Large (L)</option>
+        <option value="Extra Large">Extra Large (XL)</option>
+      </select><br>
+
+      <!-- Booking Button -->
+      <a href="booking.html" class="btn" onclick="launchConfetti()">📲 Book Your Gown</a>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 University of Nairobi Gown Booking | Designed by ICT Centre
+  </footer>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <script>
+    // Countdown to 19th September 2025
+    const countdownElement = document.getElementById('countdown');
+    const graduationDate = new Date('2025-09-19T00:00:00');
+
+    function updateCountdown() {
+      const now = new Date();
+      const timeDiff = graduationDate - now;
+
+      if (timeDiff <= 0) {
+        countdownElement.textContent = "🎓 It's Graduation Day!";
+        return;
+      }
+
+      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeDiff / 1000) % 60);
+
+      countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Confetti Animation
+    function launchConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const confetti = [];
+      for (let i = 0; i < 150; i++) {
+        confetti.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 10 + 2,
+          color: `hsl(${Math.random() * 360}, 100%, 50%)`
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.fill();
+        });
+        update();
+      }
+
+      function update() {
+        confetti.forEach(p => {
+          p.y += p.d;
+          if (p.y > canvas.height) {
+            p.y = -10;
+            p.x = Math.random() * canvas.width;
+          }
+        });
+      }
+
+      let duration = 3000;
+      let end = Date.now() + duration;
+      (function frame() {
+        draw();
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      })();
+    }
+  </script>
+
+</body>
+</html>
